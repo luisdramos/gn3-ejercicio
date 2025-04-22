@@ -18,14 +18,15 @@ SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
 DECLARE @val INT = NULL
 DECLARE @NEWEMP INT = 0
 
-IF @NombreEmpleado IS NULL BEGIN RETURN @NEWEMP END 
-IF @FechaIngreso IS NULL BEGIN RETURN @NEWEMP END 
-IF @FechaNacimiento IS NULL BEGIN RETURN @NEWEMP END 
-IF @ClaveDepartamento IS NULL BEGIN RETURN @NEWEMP END 
+IF @NombreEmpleado IS NULL BEGIN SET @NEWEMP = 0 END 
+IF @FechaIngreso IS NULL BEGIN SET @NEWEMP = 0 END 
+IF @FechaNacimiento IS NULL BEGIN SET @NEWEMP = 0 END 
+IF @ClaveDepartamento IS NULL BEGIN SET @NEWEMP =0 END 
 
 -- Se valida si existe la claveEmpleado
 IF EXISTS (SELECT TOP 1 * FROM Empleados WHERE ClaveEmpleado = @ClaveEmpleado)
 BEGIN 
+	print ('existe')
 	SET @val = 1
 END 
 
@@ -34,9 +35,7 @@ BEGIN
 	INSERT INTO Empleados (ClaveEmpleado, NombreEmpleado, FechaIngreso, FechaNacimiento, ClaveDepartamento)
 	VALUES (@ClaveEmpleado, @NombreEmpleado, @FechaIngreso, @FechaNacimiento, @ClaveDepartamento)
 	
-	SET @NEWEMP = SCOPE_IDENTITY()
-
-	RETURN @NEWEMP
+	SET @NEWEMP = @ClaveEmpleado
 END 
 
 IF @val IS NOT NULL 
@@ -47,6 +46,8 @@ BEGIN
 			FechaIngreso = @FechaIngreso,
 			ClaveDepartamento = @ClaveDepartamento
 		WHERE ClaveEmpleado = @ClaveEmpleado
-	
-	RETURN @ClaveEmpleado
+
+		SET @NEWEMP = @ClaveEmpleado
 END 
+
+SELECT @NEWEMP AS RESPONSE

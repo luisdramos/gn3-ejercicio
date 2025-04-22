@@ -3,10 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace api.Models
 {
-    public class Departamento
+    public class Departamentos
     {
-        [Key]
-        public int ClaveDepartamento { get; set; }
+        public int ClaveDepartamento { get; set; } = 0;
         public string Descripcion { get; set; } = string.Empty;
         
     }
