@@ -6,9 +6,7 @@ namespace api.Models
     {
         public int ClaveEmpleado { get; set; }
         public decimal SueldoMensual { get; set; }
-        public string FormaPago { get; set; } = string.Empty;
-
-        public Empleado? Empleado { get; set; }
+        public string FormaPago { get; set; } = string.Empty;        
 
     }
 }

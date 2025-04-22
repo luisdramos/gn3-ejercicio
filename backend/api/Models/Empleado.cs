@@ -3,16 +3,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace api.Models
 {
-    public class Empleado
+    public class Empleados
     {
-        [Key]
-        public int ClaveEmpleado { get; set; }
+        public int ClaveEmpleado { get; set; } = 0;
         public string NombreEmpleado { get; set; } = string.Empty;
-        public DateTime FechaIngreso { get; set; }
-        public DateTime FechaNacimiento { get; set; }
-        public int? ClaveDepartamento { get; set; }
-
-        public Departamento? Departamento { get; set; }
-        public Sueldo? Sueldo { get; set; }
+        public string FechaIngreso { get; set; } = string.Empty;
+        public string FechaNacimiento { get; set; } = string.Empty;
+        public int? ClaveDepartamento { get; set; } = 0;  
     }
 }

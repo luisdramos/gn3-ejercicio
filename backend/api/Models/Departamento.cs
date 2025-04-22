@@ -8,7 +8,6 @@ namespace api.Models
         [Key]
         public int ClaveDepartamento { get; set; }
         public string Descripcion { get; set; } = string.Empty;
-
-        public ICollection<Empleado>? Empleados { get; set; }
+        
     }
 }
