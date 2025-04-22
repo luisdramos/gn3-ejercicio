@@ -10,7 +10,6 @@ using System.Data;
 [Route("api/[controller]")]
 public class SueldosController(SqlHelper sqlHelper) : ControllerBase
 {
-
     private class Sueldo
     {
         public int ClaveEmpleado { get; set; }
