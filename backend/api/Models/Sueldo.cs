@@ -2,11 +2,11 @@
 
 namespace api.Models
 {
-    public class Sueldo
+    public class Sueldos
     {
-        public int ClaveEmpleado { get; set; }
-        public decimal SueldoMensual { get; set; }
-        public string FormaPago { get; set; } = string.Empty;        
+        public int ClaveEmpleado { get; set; } = 0;
+        public decimal SueldoMensual { get; set; } = 0;
+        public string FormaPago { get; set; } = "Efectivo";        
 
     }
 }
