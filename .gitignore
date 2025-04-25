@@ -6,3 +6,6 @@ v17
 /backend/api/.vs/
 /backend/api/obj/
 /backend/api/bin/
+/frontend/WebApplication/.vs/
+/frontend/WebApplication/obj/
+/frontend/WebApplication/bin/
