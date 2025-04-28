@@ -86,52 +86,72 @@
 }
 
 <div id="formularioDepartamento">
-    <form v-on:submit.prevent="enviarFormulario">
+    <h2>Formulario Departamento</h2>
+    <form>
         <div class="mb-3">
             <label for="clave" class="form-label">Clave Departamento</label>
-            <input type="number" id="clave" v-model="nuevoDepartamento.ClaveDepartamento" class="form-control" required>
+            <input type="number" id="clave" v-model="dpto.ClaveDepartamento" class="form-control" required>
         </div>
 
         <div class="mb-3">
             <label for="descripcion" class="form-label">Descripción</label>
-            <input type="text" id="descripcion" v-model="nuevoDepartamento.Descripcion" class="form-control" required>
+            <input type="text" id="descripcion" v-model="dpto.Descripcion" class="form-control" required>
         </div>
 
-        <button type="submit" class="btn btn-primary">Guardar</button>
+        <button type="button" class="btn btn-primary" v-on:click="save">Agregar/Actualizar</button>
+        <button type="button" class="btn btn-danger" v-on:click="deleted">Eliminar</button> 
     </form>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
-<script>
+<script>    
     new Vue({
         el: '#formularioDepartamento',
         data: {
-            nuevoDepartamento: {
+            dpto: {
                 ClaveDepartamento: '',
                 Descripcion: ''
             }
         },
         methods: {
-            enviarFormulario() {
-                fetch('/api/apipost/SetDepartamentosAPI', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(this.nuevoDepartamento)
-                })
-                    .then(response => {
+            async save() {
+                if (this.dpto.ClaveDepartamento != '' && this.dpto.Descripcion != '') {
+                    fetch('/api/SetDepartamentoAPI', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(this.dpto)
+                    }).then(response => {
                         if (response.ok) {
                             alert('Departamento guardado correctamente');
-                            this.nuevoDepartamento.ClaveDepartamento = '';
-                            this.nuevoDepartamento.Descripcion = '';
+                            this.dpto.ClaveDepartamento = '';
+                            this.dpto.Descripcion = '';
+                            window.location.reload();
                         } else {
                             alert('Error al guardar');
                         }
-                    })
-                    .catch(error => {
-                        console.error('Error en la solicitud:', error);
-                    });
+                    }).catch(error => { console.error('Error en la solicitud:', error); });
+                } else { alert('Faltan datos por capturar'); }
+                
+            }, test() {
+                console.log('Test function called');
+            }, async deleted() {
+                if (this.dpto.ClaveDepartamento != '') {
+                    fetch('/api/DeleteDepartamentoAPI', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(this.dpto)
+                    }).then(response => {
+                        if (response.ok) {
+                            alert('Departamento eliminado correctamente');
+                            this.dpto.ClaveDepartamento = '';
+                            this.dpto.Descripcion = '';
+                            window.location.reload();
+                        } else {
+                            alert('Error al guardar');
+                        }
+                    }).catch(error => { console.error('Error en la solicitud:', error); });
+                } else { alert('Faltan datos por capturar'); }
+
             }
         }
     });

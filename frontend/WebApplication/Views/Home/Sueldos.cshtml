@@ -43,7 +43,8 @@
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
 
-    <script>        
+    <script>
+
         const apiUrl = '@Url.Content("~/api/GetSueldosAPI")';
 
         new Vue({
@@ -85,3 +86,81 @@
         });
     </script>
 }
+
+<div id="formularioSueldo">
+    <h2>Formulario Sueldo</h2>
+    <form>
+        <div class="mb-3">
+            <label for="clave" class="form-label">Clave Empleado</label>
+            <input type="number" id="clave" v-model="form.ClaveEmpleado" class="form-control" min="0" max="1000" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="sueldoMensual" class="form-label">Sueldo Mensual</label>
+            <input type="text" id="sueldoMensual" v-model="form.SueldoMensual" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="formaPago" class="form-label">Forma de Pago</label>
+            <select id="formaPago" v-model="form.FormaPago" class="form-select" required>
+                <option value="" disabled selected>Seleccione una opción</option>
+                <option value="Efectivo">Efectivo</option>                
+                <option value="Transferencia">Transferencia</option>
+            </select>
+        </div>
+
+        <button type="button" class="btn btn-primary" v-on:click="save">Agregar/Actualizar</button>
+        <button type="button" class="btn btn-danger" v-on:click="deleted">Eliminar</button>
+    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+<script>
+    new Vue({
+        el: '#formularioSueldo',
+        data: {
+            form: {
+                ClaveEmpleado: '',
+                SueldoMensual: '',
+                FormaPago: ''
+            }
+        },
+        methods: {
+            async save() {
+                if (this.form.ClaveEmpleado != '' || this.form.SueldoMensual != '' || this.form.FormaPago != '') {
+                    fetch('/api/SetSueldoAPI', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(this.form)
+                    }).then(response => {
+                        if (response.ok) {
+                            alert('Sueldo guardado correctamente');                            
+                            window.location.reload();
+                        } else {
+                            alert('Error al guardar');
+                        }
+                    }).catch(error => { console.error('Error en la solicitud:', error); });
+                } else { alert('Faltan datos por capturar'); }
+
+            }, test() {
+                console.log('Test function called');
+            }, async deleted() {
+                if (this.form.ClaveEmpleado != '') {
+                    fetch('/api/DeleteSueldoAPI', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(this.form)
+                    }).then(response => {
+                        if (response.ok) {
+                            alert('Sueldo eliminado correctamente');                            
+                            window.location.reload();
+                        } else {
+                            alert('Error al guardar');
+                        }
+                    }).catch(error => { console.error('Error en la solicitud:', error); });
+                } else { alert('Faltan datos por capturar'); }
+
+            }
+        }
+    });
+</script>
